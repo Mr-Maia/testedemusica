@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cântico 163 — Quem canta o quê</title>
+<style>
+  :root{
+    --bg:#fbfaf7; --fg:#1d1d1f; --muted:#6b6b70; --line:#e6e3dc;
+    --h-bg:#dcecfb; --h-fg:#0b4a80; --h-bar:#3b8ad9;
+    --m-bg:#fbe1ec; --m-fg:#8a1d4a; --m-bar:#d9508a;
+    --t-bg:#e1f3d8; --t-fg:#2f5f17; --t-bar:#5aa632;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141416; --fg:#f2f2f4; --muted:#a0a0a8; --line:#2c2c30;
+      --h-bg:#16324d; --h-fg:#b9dbff; --h-bar:#5aa2ec;
+      --m-bg:#46182c; --m-fg:#ffc4dc; --m-bar:#e86fa2;
+      --t-bg:#1f3a14; --t-fg:#c8efb2; --t-bar:#74c24a;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:19px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  main{max-width:640px;margin:0 auto;padding:24px 16px 64px}
+  h1{font-size:1.6rem;line-height:1.2;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 20px;font-size:.95rem}
+  .sub a{color:inherit}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:2;
+    background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .chip{font-size:.85rem;font-weight:600;padding:4px 10px;border-radius:999px}
+  .homens{background:var(--h-bg);color:var(--h-fg);--bar:var(--h-bar)}
+  .mulheres{background:var(--m-bg);color:var(--m-fg);--bar:var(--m-bar)}
+  .todos{background:var(--t-bg);color:var(--t-fg);--bar:var(--t-bar)}
+  .normal{border:1px solid var(--line);color:var(--muted)}
+  section{margin-top:24px}
+  h2{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .l{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:4px 0;border-radius:10px;
+    border-left:5px solid var(--bar,transparent)}
+  .l.normal{border:none;border-left:5px solid var(--line);color:var(--fg)}
+  .l.ind .txt{padding-left:1.2em}
+  .txt{flex:1}
+  .who{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;opacity:.85;white-space:nowrap}
+  .note{margin-top:32px;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Cântico 163<br>Happy Are These Eyes</h1>
+  <p class="sub">(Mateus 13:16) · Letra completa em
+    <a href="https://www.jw.org/en/library/music-songs/sing-out-joyfully/163-happy-are-these-eyes/">jw.org</a></p>
+
+  <div class="legend">
+    <span class="chip homens">Homens</span>
+    <span class="chip mulheres">Mulheres</span>
+    <span class="chip todos">Todos</span>
+    <span class="chip normal">Sem cor · todos, normal</span>
+  </div>
+
+  <div id="song"></div>
+
+  <p class="note">(Ver também Mateus 7:24.)</p>
+</main>
+
+<script>
+// grupo: homens | mulheres | todos | normal   ·   ind: linha recuada
+// "t" tem só o início de cada verso — pode substituir pelo verso completo.
+const coro = [
+  {g:"homens",   t:"By God’s light, I can see"},
+  {g:"mulheres", t:"How to live happily.", ind:1},
+  {g:"todos",    t:"By God’s light, I am truly free."},
+  {g:"todos",    t:"Happy are these eyes because they see!"},
+];
+const cantico = [
+  {titulo:"Estrofe 1", linhas:[
+    {g:"normal", t:"Jesus loved to share…"},
+    {g:"normal", t:"Bringing happiness…", ind:1},
+    {g:"normal", t:"On a mountainside…"},
+    {g:"normal", t:"Seeking God’s will…"},
+    {g:"normal", t:"With a humble heart…", ind:1},
+    {g:"normal", t:"He was kind to all…"},
+  ]},
+  {titulo:"Coro", linhas:coro},
+  {titulo:"Estrofe 2", linhas:[
+    {g:"homens",   t:"When anxieties come…"},
+    {g:"homens",   t:"We will live our lives…", ind:1},
+    {g:"homens",   t:"For Jehovah’s hand…"},
+    {g:"mulheres", t:"As the lilies grow…"},
+    {g:"mulheres", t:"How the love God shows…", ind:1},
+    {g:"mulheres", t:"If he cares for them…"},
+  ]},
+  {titulo:"Coro", linhas:coro},
+  {titulo:"Estrofe 3", linhas:[
+    {g:"normal",   t:"We will build on rock…"},
+    {g:"normal",   t:"If a storm should come…", ind:1},
+    {g:"normal",   t:"Yes, Jehovah’s Word…"},
+    {g:"homens",   t:"Through the narrow gate…"},
+    {g:"mulheres", t:"As he guides our way…", ind:1},
+    {g:"todos",    t:"And it leads to life…"},
+  ]},
+  {titulo:"Coro", linhas:coro},
+];
+const nomes = {homens:"Homens", mulheres:"Mulheres", todos:"Todos", normal:""};
+document.getElementById("song").innerHTML = cantico.map(s => `
+  <section><h2>${s.titulo}</h2>${s.linhas.map(l => `
+    <div class="l ${l.g}${l.ind ? " ind" : ""}">
+      <span class="txt">${l.t}</span><span class="who">${nomes[l.g]}</span>
+    </div>`).join("")}
+  </section>`).join("");
+</script>
+</body>
+</html>

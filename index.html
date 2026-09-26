@@ -35,12 +35,11 @@
   .normal{border:1px solid var(--line);color:var(--muted)}
   section{margin-top:24px}
   h2{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
-  .l{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:4px 0;border-radius:10px;
-    border-left:5px solid var(--bar,transparent)}
-  .l.normal{border:none;border-left:5px solid var(--line);color:var(--fg)}
-  .l.ind .txt{padding-left:1.2em}
-  .txt{flex:1}
-  .who{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;opacity:.85;white-space:nowrap}
+  .bloco{margin:10px 0;padding:12px 16px 14px;border-radius:14px;border-left:6px solid var(--bar)}
+  .bloco.normal{border:1px solid var(--line);border-left:6px solid var(--line);color:var(--fg)}
+  .bloco p{margin:2px 0;font-size:1.25rem;line-height:1.4}
+  .bloco p.ind{padding-left:1.1em}
+  .who{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;opacity:.8}
   .note{margin-top:32px;color:var(--muted);font-size:.85rem}
 </style>
 </head>
@@ -54,8 +53,7 @@
     <span class="chip homens">Homens</span>
     <span class="chip mulheres">Mulheres</span>
     <span class="chip todos">Todos</span>
-    <span class="chip normal">Sem cor · todos, normal</span>
-  </div>
+      </div>
 
   <div id="song"></div>
 
@@ -63,50 +61,38 @@
 </main>
 
 <script>
-// grupo: homens | mulheres | todos | normal   ·   ind: linha recuada
-// "t" tem só o início de cada verso — pode substituir pelo verso completo.
-const coro = [
-  {g:"homens",   t:"By God’s light, I can see"},
-  {g:"mulheres", t:"How to live happily.", ind:1},
-  {g:"todos",    t:"By God’s light, I am truly free."},
-  {g:"todos",    t:"Happy are these eyes because they see!"},
-];
-const cantico = [
-  {titulo:"Estrofe 1", linhas:[
-    {g:"normal", t:"Jesus loved to share…"},
-    {g:"normal", t:"Bringing happiness…", ind:1},
-    {g:"normal", t:"On a mountainside…"},
-    {g:"normal", t:"Seeking God’s will…"},
-    {g:"normal", t:"With a humble heart…", ind:1},
-    {g:"normal", t:"He was kind to all…"},
-  ]},
-  {titulo:"Coro", linhas:coro},
-  {titulo:"Estrofe 2", linhas:[
-    {g:"homens",   t:"When anxieties come…"},
-    {g:"homens",   t:"We will live our lives…", ind:1},
-    {g:"homens",   t:"For Jehovah’s hand…"},
-    {g:"mulheres", t:"As the lilies grow…"},
-    {g:"mulheres", t:"How the love God shows…", ind:1},
-    {g:"mulheres", t:"If he cares for them…"},
-  ]},
-  {titulo:"Coro", linhas:coro},
-  {titulo:"Estrofe 3", linhas:[
-    {g:"normal",   t:"We will build on rock…"},
-    {g:"normal",   t:"If a storm should come…", ind:1},
-    {g:"normal",   t:"Yes, Jehovah’s Word…"},
-    {g:"homens",   t:"Through the narrow gate…"},
-    {g:"mulheres", t:"As he guides our way…", ind:1},
-    {g:"todos",    t:"And it leads to life…"},
-  ]},
-  {titulo:"Coro", linhas:coro},
-];
-const nomes = {homens:"Homens", mulheres:"Mulheres", todos:"Todos", normal:""};
-document.getElementById("song").innerHTML = cantico.map(s => `
-  <section><h2>${s.titulo}</h2>${s.linhas.map(l => `
-    <div class="l ${l.g}${l.ind ? " ind" : ""}">
-      <span class="txt">${l.t}</span><span class="who">${nomes[l.g]}</span>
-    </div>`).join("")}
-  </section>`).join("");
+const nomes = {homens:"Homens", mulheres:"Mulheres", todos:"Todos", normal:"Todos"};
+const esc = t => t.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function parse(txt){
+  const secs=[]; let sec=null, g="normal", coro=null;
+  for (let raw of txt.split(/\r?\n/)){
+    const line=raw.trim(); if(!line) continue;
+    if (line.startsWith("## ")){ sec={titulo:line.slice(3), linhas:[]}; secs.push(sec); g="normal";
+      if(/^coro$/i.test(sec.titulo) && !coro) coro=sec; continue; }
+    if (line.startsWith("#")) continue;
+    if (line.startsWith("@")){ g=line.slice(1).trim().toLowerCase(); continue; }
+    if (line==="CORO"){ if(coro) secs.push(coro); sec=null; continue; }
+    if (!sec){ sec={titulo:"", linhas:[]}; secs.push(sec); }
+    const ind=line.startsWith(">");
+    sec.linhas.push({g, t: ind ? line.slice(1).trim() : line, ind});
+  }
+  return secs;
+}
+function render(secs){
+  document.getElementById("song").innerHTML = secs.map(s => {
+    const blocos=[];                       // agrupa versos seguidos do mesmo grupo
+    for (const l of s.linhas){
+      const b=blocos[blocos.length-1];
+      if (b && b.g===l.g) b.linhas.push(l); else blocos.push({g:l.g, linhas:[l]});
+    }
+    return `<section><h2>${esc(s.titulo)}</h2>${blocos.map(b => `
+      <div class="bloco ${b.g}"><div class="who">${nomes[b.g]||b.g}</div>
+        ${b.linhas.map(l => `<p class="${l.ind?"ind":""}">${esc(l.t)}</p>`).join("")}
+      </div>`).join("")}</section>`;
+  }).join("");
+}
+fetch("letra.txt",{cache:"no-cache"}).then(r=>r.text()).then(t=>render(parse(t)))
+  .catch(()=>{document.getElementById("song").textContent="Não foi possível carregar a letra.";});
 </script>
 </body>
 </html>

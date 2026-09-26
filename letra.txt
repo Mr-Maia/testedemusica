@@ -5,9 +5,9 @@
 #   @grupo    -> quem canta as linhas seguintes: homens | mulheres | todos | normal (não se canta)
 #   >         -> verso recuado (2.ª linha de um par)
 #   #         -> comentário (ignorado)
-# "CORO" sozinho numa linha repete o coro definido na primeira secção "## Coro".
+# "CORO" sozinho numa linha repete o coro definido na primeira secção "## Chorus".
 
-## Estrofe 1
+## Verse 1
 @normal
 Jesus loved to share truth and light,
 > Bringing happiness to our life.
@@ -16,7 +16,7 @@ Seeking God’s will first ev’ry day,
 > With a humble heart, he would pray.
 He was kind to all and ready to forgive.
 
-## Coro
+## Chorus
 @homens
 By God’s light, I can see
 @mulheres
@@ -25,7 +25,7 @@ By God’s light, I can see
 By God’s light, I am truly free.
 Happy are these eyes because they see!
 
-## Estrofe 2
+## Verse 2
 @homens
 When anxieties come our way,
 > We will live our lives day by day,
@@ -37,7 +37,7 @@ If he cares for them, I know he’ll care for me.
 
 CORO
 
-## Estrofe 3
+## Verse 3
 @normal
 We will build on rock, not on sand.
 > If a storm should come, we will stand.

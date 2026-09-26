@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Cântico 163">
+<meta name="apple-mobile-web-app-title" content="Song 163">
 <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1b1a18" media="(prefers-color-scheme: dark)">
-<title>Cântico 163</title>
+<title>Song 163</title>
 <style>
   :root{
     --bg:#fffdf8; --paper:#fffdf8; --fg:#23211d; --muted:#8a857b; --rule:#efe9dd;
@@ -62,32 +62,32 @@
 <header>
   <div class="bar">
     <div class="legend">
-      <span class="chip homens">Homens</span>
-      <span class="chip mulheres">Mulheres</span>
-      <span class="chip todos">Todos</span>
-      <span class="chip normal">Sem cor · não se canta</span>
+      <span class="chip homens">Brothers</span>
+      <span class="chip mulheres">Sisters</span>
+      <span class="chip todos">All</span>
+      <span class="chip normal">No color · not sung</span>
     </div>
     <div class="zoom">
-      <button id="menos" aria-label="Letra mais pequena">A−</button>
-      <button id="mais" aria-label="Letra maior">A+</button>
+      <button id="menos" aria-label="Smaller text">A−</button>
+      <button id="mais" aria-label="Larger text">A+</button>
     </div>
   </div>
 </header>
 <main>
   <h1>Happy Are These Eyes</h1>
-  <p class="ref">Cântico 163 · (Mateus 13:16)</p>
+  <p class="ref">Song 163 · (Matthew 13:16)</p>
   <div id="song"></div>
-  <p class="foot">(Ver também Mateus 7:24.)</p>
+  <p class="foot">(See also Matt. 7:24.)</p>
 </main>
 <script>
-const nomes = {homens:"Homens", mulheres:"Mulheres", todos:"Todos", normal:"Não se canta"};
+const nomes = {homens:"Brothers", mulheres:"Sisters", todos:"All", normal:"Not sung"};
 const esc = t => t.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 function parse(txt){
   const secs=[]; let sec=null, g="normal", coro=null;
   for (const raw of txt.split(/\r?\n/)){
     const line=raw.trim(); if(!line) continue;
     if (line.startsWith("## ")){ sec={titulo:line.slice(3), linhas:[]}; secs.push(sec); g="normal";
-      if(/^coro$/i.test(sec.titulo) && !coro) coro=sec; continue; }
+      if(/^(coro|chorus)$/i.test(sec.titulo) && !coro) coro=sec; continue; }
     if (line.startsWith("#")) continue;
     if (line.startsWith("@")){ g=line.slice(1).trim().toLowerCase(); continue; }
     if (line==="CORO"){ if(coro) secs.push(coro); sec=null; continue; }
@@ -108,7 +108,7 @@ function render(secs){
   }).join("");
 }
 fetch("letra.txt",{cache:"no-cache"}).then(r=>r.text()).then(t=>render(parse(t)))
-  .catch(()=>{document.getElementById("song").textContent="Não foi possível carregar a letra.";});
+  .catch(()=>{document.getElementById("song").textContent="Could not load the lyrics.";});
 
 let size=22; try{ size=+localStorage.getItem("size")||22 }catch(e){}
 const setSize=n=>{ size=Math.max(16,Math.min(36,n)); document.documentElement.style.setProperty("--size",size+"px");

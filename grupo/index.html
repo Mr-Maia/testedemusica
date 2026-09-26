@@ -73,10 +73,8 @@
 <header>
   <div class="bar">
     <div class="legend">
-      <span class="chip homens">Brothers</span>
-      <span class="chip mulheres">Sisters</span>
-      <span class="chip todos">All</span>
-      <span class="chip normal">No color · not sung</span>
+      <div class="row"><span class="lbl">Everyone</span><span class="chip homens">Brothers</span><span class="chip mulheres">Sisters</span><span class="chip todos">All</span></div>
+      <div class="row"><span class="lbl">Group</span><span class="chip gh">Brothers</span><span class="chip gm">Sisters</span><span class="chip gt">All</span></div>
     </div>
     <div class="zoom">
       <button id="menos" aria-label="Smaller text">A−</button>
@@ -91,6 +89,7 @@
   <p class="foot">(See also Matt. 7:24.)</p>
 </main>
 <script>
+window.LETRA = "../letra-grupo.txt";
 const nomes = {homens:"Brothers", mulheres:"Sisters", todos:"All", normal:"Not sung", gh:"Brothers", gm:"Sisters", gt:"All"};
 const LETRA = window.LETRA || "letra.txt";
 const esc = t => t.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));

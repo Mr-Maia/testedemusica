@@ -1,0 +1,53 @@
+# Cântico 163 — Happy Are These Eyes
+#
+# Linhas começadas por:
+#   ##        -> título de secção (Estrofe 1, Coro…)
+#   @grupo    -> quem canta as linhas seguintes: homens | mulheres | todos | normal (não se canta)
+#   >         -> verso recuado (2.ª linha de um par)
+#   [grupo]   -> muda de grupo a meio do verso (gh/gm/gt = grupo especial: irmãos/irmãs/todos)
+#   #         -> comentário (ignorado)
+# "CORO" sozinho numa linha repete o coro definido na primeira secção "## Chorus".
+
+## Verse 1
+@gh
+[gh]Jesus loved to share [gm]truth and light,
+> [gh]Bringing happiness [gm]to our life.
+[gt]On a mountainside, he taught us how to live.
+[gm]Seeking God’s will first ev’ry day,
+> [gm]With a humble heart, [gh]he would pray.
+[gt]He was kind to all and ready to forgive.
+
+## Chorus
+@homens
+By God’s light, I can see
+@mulheres
+> How to live happily.
+@todos
+By God’s light, I am truly free.
+Happy are these eyes because they see!
+
+## Verse 2
+@homens
+When anxieties come our way,
+> We will live our lives day by day,
+For Jehovah’s hand provides our daily needs.
+@mulheres
+As the lilies grow in the field,
+> How the love God shows is revealed!
+If he cares for them, I know he’ll care for me.
+
+CORO
+
+## Verse 3
+@gh
+[gh]We will build on rock, [gm]not on sand.
+> [gh]If a storm should come, [gm]we will stand.
+[gt]Yes, Jehovah’s Word will live in all we do.
+@homens
+Through the narrow gate, we will go.
+@mulheres
+> As he guides our way, blessings flow,
+@todos
+And it leads to life, where all will be made new.
+
+CORO
